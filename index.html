@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0a08">
+  <meta name="description" content="包含 20 款经典鸡尾酒、精确材料、逐步教程与动画演示的入门调酒指南。">
+  <title>杯中课 · 午夜调酒指南</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail" id="catalogPanel" aria-label="鸡尾酒目录">
+      <header class="brand">
+        <div>
+          <strong>杯中课</strong>
+          <span>Midnight Mixing Notes</span>
+        </div>
+        <b>20</b>
+      </header>
+
+      <label class="search">
+        <span class="search-mark" aria-hidden="true"></span>
+        <input id="searchInput" type="search" placeholder="搜索酒名、基酒或技法" autocomplete="off">
+        <button id="clearSearch" type="button" aria-label="清除搜索" title="清除搜索">×</button>
+      </label>
+
+      <div class="filter-row" id="baseFilters" aria-label="按基酒筛选"></div>
+      <div class="result-meta"><span id="resultCount">20 款配方</span><button id="openCourse" type="button">入门方法课</button></div>
+      <nav class="cocktail-list" id="cocktailList" aria-label="鸡尾酒列表"></nav>
+    </aside>
+
+    <main class="stage" id="mainStage">
+      <header class="stage-bar">
+        <p id="breadcrumb">经典配方 / 威士忌 / 搅拌</p>
+        <div class="stage-actions">
+          <button id="favoriteButton" class="icon-button" type="button" aria-label="收藏当前配方" title="收藏当前配方">☆</button>
+          <button id="randomButton" class="command-button" type="button" title="随机选择一款酒">随机一杯</button>
+        </div>
+      </header>
+
+      <section class="drink-hero" aria-labelledby="drinkName">
+        <div class="drink-copy">
+          <p class="index-line" id="drinkIndex">NO. 01 · BEGINNER</p>
+          <h1 id="drinkName">古典</h1>
+          <p class="english-name" id="drinkEnglish">Old Fashioned</p>
+          <p class="drink-summary" id="drinkSummary"></p>
+          <div class="tag-row" id="tagRow"></div>
+        </div>
+
+        <div class="animation-module">
+          <canvas id="drinkCanvas" width="720" height="820" aria-label="当前鸡尾酒制作动画"></canvas>
+          <div class="animation-caption">
+            <span id="animationStep">准备开始</span>
+            <b id="animationTime">00:00</b>
+          </div>
+          <div class="animation-controls" aria-label="动画控制">
+            <button id="prevStep" class="icon-button" type="button" aria-label="上一步" title="上一步">←</button>
+            <button id="playAnimation" class="play-button" type="button" aria-label="播放动画" title="播放动画">▶</button>
+            <button id="nextStep" class="icon-button" type="button" aria-label="下一步" title="下一步">→</button>
+            <input id="animationScrubber" type="range" min="0" max="1000" value="0" aria-label="动画进度">
+            <button id="restartAnimation" class="icon-button" type="button" aria-label="重新播放" title="重新播放">↺</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="fact-strip" id="factStrip" aria-label="配方概览"></section>
+
+      <section class="formula-section">
+        <div class="section-heading">
+          <div><span>UNDERSTAND THE BUILD</span><h2>先理解结构，再记住数字</h2></div>
+          <p id="formulaPrinciple"></p>
+        </div>
+        <div class="ratio-track" id="ratioTrack" aria-label="配方比例图"></div>
+        <div class="ratio-legend" id="ratioLegend"></div>
+      </section>
+
+      <section class="taste-section">
+        <div class="taste-copy">
+          <span>TASTE MAP</span>
+          <h2>这一杯喝起来如何</h2>
+          <p id="tasteDescription"></p>
+        </div>
+        <div class="taste-grid" id="tasteGrid"></div>
+      </section>
+    </main>
+
+    <aside class="recipe-panel" id="recipePanel" aria-label="详细制作教程">
+      <header class="recipe-header">
+        <div><span>FULL TUTORIAL</span><h2>制作教程</h2></div>
+        <button id="closeRecipeMobile" class="icon-button mobile-only" type="button" aria-label="关闭教程">×</button>
+      </header>
+
+      <div class="recipe-tabs" role="tablist" aria-label="教程分类">
+        <button class="recipe-tab active" type="button" role="tab" aria-selected="true" data-tab="materials">材料</button>
+        <button class="recipe-tab" type="button" role="tab" aria-selected="false" data-tab="steps">步骤</button>
+        <button class="recipe-tab" type="button" role="tab" aria-selected="false" data-tab="notes">纠错</button>
+      </div>
+
+      <div class="recipe-content">
+        <section class="tab-panel active" id="materialsPanel" role="tabpanel"></section>
+        <section class="tab-panel" id="stepsPanel" role="tabpanel"></section>
+        <section class="tab-panel" id="notesPanel" role="tabpanel"></section>
+      </div>
+    </aside>
+  </div>
+
+  <aside class="course-drawer" id="courseDrawer" aria-hidden="true" aria-label="入门调酒方法课">
+    <div class="course-backdrop" data-close-course></div>
+    <div class="course-sheet">
+      <header>
+        <div><span>BEGINNER'S METHOD</span><h2>不靠死记硬背学调酒</h2></div>
+        <button class="icon-button" type="button" data-close-course aria-label="关闭方法课" title="关闭">×</button>
+      </header>
+      <div class="course-intro">
+        <p>先掌握比例、温度与稀释，再扩充酒款。下面五个判断框架，可以覆盖这份指南里的绝大多数操作。</p>
+      </div>
+      <div class="course-grid" id="courseGrid"></div>
+      <div class="practice-plan">
+        <span>7-DAY PRACTICE</span>
+        <h3>建议练习顺序</h3>
+        <ol>
+          <li><b>第 1–2 天</b><span>金汤力、莫斯科骡子：练习量取与直调。</span></li>
+          <li><b>第 3 天</b><span>古典、尼格罗尼：练习搅拌、稀释与温度。</span></li>
+          <li><b>第 4–5 天</b><span>黛绮丽、玛格丽特：练习酸甜平衡与摇和。</span></li>
+          <li><b>第 6 天</b><span>威士忌酸：加入蛋白，观察泡沫质地。</span></li>
+          <li><b>第 7 天</b><span>用同一基酒微调甜度，记录自己的偏好。</span></li>
+        </ol>
+      </div>
+    </div>
+  </aside>
+
+  <div class="tweaks" id="tweaks">
+    <button id="tweaksToggle" class="tweaks-toggle" type="button" aria-label="显示设置" title="显示设置">Aa</button>
+    <div class="tweaks-panel" aria-hidden="true">
+      <strong>Tweaks</strong>
+      <label><span>减少动画</span><input id="motionToggle" type="checkbox" role="switch"></label>
+      <label><span>紧凑酒单</span><input id="compactToggle" type="checkbox" role="switch"></label>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="手机端导航">
+    <button type="button" data-mobile-view="catalog">酒单</button>
+    <button type="button" data-mobile-view="drink" class="active">酒款</button>
+    <button type="button" data-mobile-view="recipe">教程</button>
+    <button type="button" data-mobile-view="course">方法课</button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
